@@ -1,0 +1,19 @@
+{
+  "name": "Automation-bot-v2",
+  "version": "0.1.0",
+  "description": "A bot for automating guild administartions through discord.",
+  "main": "app.js",
+  "author": {
+    "name": "Thom van Damn"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^4.0.3",
+    "@types/node": "^6.0.114"
+  },
+  "dependencies": {
+    "discord.js": "^11.3.2",
+    "dotenv": "^4.0.0",
+    "google-auth-library": "^0.11.0",
+    "googleapis": "^22.2.0"
+  }
+}
