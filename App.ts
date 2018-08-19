@@ -1,4 +1,4 @@
-import {Startup} from "./Startup" ;
+import {Startup} from "./Source/Startup" ;
 import {config as env} from "dotenv";
 
 class Bot {
@@ -6,8 +6,8 @@ class Bot {
         env();
     }
 
-    public static start(botkey :string = process.env.DISCORD_TOKEN, sheetkey :string = null ) {
+    public start(botkey :string = process.env.DISCORD_TOKEN, sheetkey :string = null ) {
        const bot = new Startup(botkey, sheetkey);          
     }
 }
-Bot.start();
+ new Bot().start();
