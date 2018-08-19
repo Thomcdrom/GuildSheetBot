@@ -7,9 +7,9 @@ export class Startup {
         this.client = new discord.Client();
         this.client.login(botkey).catch(() => {console.error('Your discord bot key isn\'t valid')});
         
-        this.read();
+        this.ready();
     }  
-    private read() {
+    private ready() {
         this.client.on('ready', () => {
             console.log(`Logged in as ${this.client.user.tag}!`);
         });
