@@ -1,5 +1,5 @@
-import { CommandInterface } from './ComandInterface';
 
-class comandBase implements CommandInterface {
+
+abstract class comandBase {
 
 }

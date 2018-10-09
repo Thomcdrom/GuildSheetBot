@@ -7,7 +7,8 @@ class Bot {
     }
 
     public start(botkey :string = process.env.DISCORD_TOKEN, sheetkey :string = null ) {
-       const bot = new Startup(botkey, sheetkey);          
+       const bot = new Startup(botkey, sheetkey);     
     }
 }
  new Bot().start();
+

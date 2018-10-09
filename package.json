@@ -7,11 +7,16 @@
     "name": "Thom van Damn"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.4",
     "@types/dotenv": "^4.0.3",
-    "@types/node": "^6.0.114"
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^6.0.117",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "ts-node": "^7.0.1"
   },
   "dependencies": {
-    "discord.js": "^11.3.2",
+    "discord.js": "^11.4.2",
     "dotenv": "^4.0.0",
     "google-auth-library": "^0.11.0",
     "googleapis": "^22.2.0"

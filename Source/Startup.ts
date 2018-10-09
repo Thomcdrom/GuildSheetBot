@@ -12,6 +12,18 @@ export class Startup {
     private ready() {
         this.client.on('ready', () => {
             console.log(`Logged in as ${this.client.user.tag}!`);
+            this.message();
         });
     }
+    
+    private message() {
+        this.client.on('message', msg => {
+            console.log("message");
+            if (msg.content === 'ping') {
+              msg.reply('Pong!');
+            }
+          });
+    }
+
+    
 }
