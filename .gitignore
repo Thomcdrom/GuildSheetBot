@@ -7,3 +7,4 @@ typings/
 archive/
 *.map
 .env
+JsonFiles/

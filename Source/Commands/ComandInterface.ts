@@ -1,7 +1,6 @@
-import {Client} from 'discord.js';
+import {Message } from 'discord.js';
 
-export interface CommandInterface {
+export interface ComandInterface {
      
-    client:Client;
-    run();
+    run(message :Message);
 }

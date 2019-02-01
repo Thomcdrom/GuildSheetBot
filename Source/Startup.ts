@@ -1,4 +1,7 @@
 import * as discord from 'discord.js';
+import {AddReactions} from '../Source/Commands/Signup/AddReactions'
+
+
 
 export class Startup {
       client: discord.Client
@@ -17,13 +20,22 @@ export class Startup {
     }
     
     private message() {
-        this.client.on('message', msg => {
-            console.log("message");
-            if (msg.content === 'ping') {
-              msg.reply('Pong!');
+        this.client.on('message', message => {
+
+            switch (true) {
+                case message.content ==='ping':
+                    message.reply('Pong!');
+                break;
+                case message.content.includes('node war'):
+                   const reaction = new AddReactions(this.client, message);
+
+                   reaction.run();
+                break;
             }
+
           });
     }
 
+    
     
 }

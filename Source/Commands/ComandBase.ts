@@ -1,5 +1,9 @@
+import {Client} from 'discord.js';
 
+export abstract class ComandBase {
+    client :Client;
 
-abstract class comandBase {
-
+    constructor(client :Client){
+        this.client = client;
+    }  
 }

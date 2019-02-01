@@ -1,7 +1,7 @@
-import { CommandInterface } from '../ComandInterface';
+import { ComandInterface } from '../ComandInterface';
 import {Client} from 'discord.js';
 
-export class Reset implements CommandInterface{
+export class Reset implements ComandInterface{
     client:Client;
 
     constructor(client :Client){
