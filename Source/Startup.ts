@@ -1,8 +1,6 @@
 import * as discord from 'discord.js';
 import {AddReactions} from '../Source/Commands/Signup/AddReactions'
 
-
-
 export class Startup {
       client: discord.Client
 
