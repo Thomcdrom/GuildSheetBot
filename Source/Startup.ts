@@ -14,24 +14,46 @@ export class Startup {
         this.client.on('ready', () => {
             console.log(`Logged in as ${this.client.user.tag}!`);
             this.message();
+            this.reaction();
         });
     }
     
     private message() {
         this.client.on('message', message => {
-
             switch (true) {
                 case message.content ==='ping':
                     message.reply('Pong!');
                 break;
+
                 case message.content.includes('node war'):
                    const reaction = new AddReactions(this.client, message);
-
                    reaction.run();
                 break;
             }
 
           });
+    }
+
+    private reaction() {
+        this.client.on('messageReactionAdd', (messageReaction, user) => {
+            switch (messageReaction.emoji.name) {
+                case '✅':
+                    console.log('drive');
+                break;
+
+                case '❎':
+                    console.log('fail');
+                break;
+
+                case '❓':
+                    console.log('maybe');
+                break;
+
+                default:
+                    user.send('This emote isn\'t supported for signup. Please remove the emote from the signup message.');
+                break;
+            }
+        }); 
     }
 
     

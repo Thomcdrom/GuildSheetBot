@@ -1,5 +1,5 @@
 {
-  "name": "Automation-bot-v2",
+  "name": "automationbot-v2",
   "version": "0.1.0",
   "description": "A bot for automating guild administartions through discord.",
   "main": "app.js",
@@ -7,18 +7,17 @@
     "name": "Thom van Damn"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.4",
+    "@types/chai": "^4.1.7",
     "@types/dotenv": "^4.0.3",
     "@types/mocha": "^5.2.5",
-    "@types/node": "^6.0.117",
-    "chai": "^4.1.2",
+    "@types/node": "^6.14.2",
+    "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "ts-node": "^7.0.1"
   },
   "dependencies": {
     "discord.js": "^11.4.2",
     "dotenv": "^4.0.0",
-    "google-auth-library": "^0.11.0",
-    "googleapis": "^22.2.0"
+    "googleapis": "^37.0.0"
   }
 }
