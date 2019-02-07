@@ -18,6 +18,7 @@
   "dependencies": {
     "discord.js": "^11.4.2",
     "dotenv": "^4.0.0",
+    "google-auth-library": "^3.0",
     "googleapis": "^37.0.0"
   }
 }

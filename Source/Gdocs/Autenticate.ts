@@ -1,4 +1,4 @@
-import { readFile, mkdirSync, writeFile } from 'fs';
+import { readFile, writeFile } from 'fs';
 import {google} from 'googleapis';
 import * as readline from 'readline';
 
@@ -15,26 +15,27 @@ export abstract class GdocAutenticate {
         this.sheetId = process.env.SHEET_ID;
     }
 
-  authenticate(){
-    readFile('credentials.json', (err, content :any) => {
+    protected authenticate(){
+     readFile('credentials.json', async (err, content :Buffer) => {
         if (err) return console.log('Error loading client secret file:', err);
         // Authorize a client with credentials, then call the Google Sheets API.
-        this.authenthication = this.authorize(JSON.parse(content));
+        this.authenthication = this.authorize(JSON.parse(content.toString('utf8')));
+        this.run();
       });
       
   }
 
-  private authorize(credentials) {
+ private authorize(credentials) {
     const {client_secret, client_id, redirect_uris} = credentials.installed;
     const oAuth2Client = new google.auth.OAuth2(
       client_id, client_secret, redirect_uris[0]);
 
     // Check if we have previously stored a token.
-    readFile(TOKEN_PATH, (err, token :any) => {
+     readFile(TOKEN_PATH, (err, token :any) => {
         if (err) return this.getNewToken(oAuth2Client);
-        oAuth2Client.setCredentials(JSON.parse(token));
+        oAuth2Client.setCredentials(JSON.parse(token.toString('utf8')));
     });
-    return oAuth2Client;
+
   }
 
   private getNewToken(oAuth2Client) {
@@ -59,6 +60,9 @@ export abstract class GdocAutenticate {
           });
         });
       });
-    
   }
+
+   run() {
+    console.log('I SHOULD BE OVERWRITTEN!');
+  };
 }

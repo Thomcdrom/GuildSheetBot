@@ -1,5 +1,6 @@
 import * as discord from 'discord.js';
 import {AddReactions} from '../Source/Commands/Signup/AddReactions'
+import { Signup } from './Gdocs/Signup';
 
 export class Startup {
       client: discord.Client
@@ -36,22 +37,24 @@ export class Startup {
 
     private reaction() {
         this.client.on('messageReactionAdd', (messageReaction, user) => {
-            switch (messageReaction.emoji.name) {
-                case '✅':
-                    console.log('drive');
-                break;
+            if (user.id !== this.client.user.id) {
+                switch (messageReaction.emoji.name) {
+                    case '✅':
+                        new Signup(user, 'value');
+                    break;
 
-                case '❎':
-                    console.log('fail');
-                break;
+                    case '❎':
+                        console.log('fail');
+                    break;
 
-                case '❓':
-                    console.log('maybe');
-                break;
+                    case '❓':
+                        console.log('maybe');
+                    break;
 
-                default:
-                    user.send('This emote isn\'t supported for signup. Please remove the emote from the signup message.');
-                break;
+                    default:
+                        user.send('This emote isn\'t supported for signup. Please remove the emote from the signup message.');
+                    break;
+                }
             }
         }); 
     }

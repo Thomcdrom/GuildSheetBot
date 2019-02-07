@@ -1,17 +1,29 @@
-import {GdocAutenticate} from './Autenticate';
-import {google} from 'googleapis';
+import { GdocAutenticate } from './Autenticate';
+import { google } from 'googleapis';
+import { User } from 'discord.js';
 
 export class Signup extends GdocAutenticate {
 
-    async Signup(user,value,msg_str){
+    user :User;
+    value :string;
 
+    constructor(user :User ,value :string) {
+        super();
+        this.user = user;
+        this.value = value;
+
+        this.authenticate();
+    }
+
+    run() {
         const auth = this.authenthication;
 
-        const sheets = google.sheets({version: 'v4', auth });
+        console.log(auth);
 
+        const sheets = google.sheets({version: 'v4', auth });
         sheets.spreadsheets.values.get({
             spreadsheetId: this.sheetId,
-            range: 'Thoms rooster extravaganza!B1:B',
+            range: "rooster!B1:B",
         }, (err, res) => {
             if (err) return console.log('The API returned an error: ' + err);
             const rows = res.data.values;
