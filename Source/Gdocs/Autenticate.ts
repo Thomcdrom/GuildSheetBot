@@ -1,5 +1,5 @@
 import { readFile, writeFile } from 'fs';
-import {google, speech_v1p1beta1} from 'googleapis';
+import {google} from 'googleapis';
 import * as readline from 'readline';
 import { OAuth2Client } from 'googleapis-common';
 
