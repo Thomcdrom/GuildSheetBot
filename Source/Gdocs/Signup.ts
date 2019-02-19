@@ -34,43 +34,46 @@ export class Signup extends GdocAutenticate {
             rows.map((row, count) => {
                 if (this.user.username.toLowerCase() === row[0].toLowerCase()) {
                     let day :string;
+                    const content = this.user.lastMessage.content.toLowerCase();
 
                     switch(true) {
-                        case (this.user.lastMessage.content.indexOf('Monday') >-1):
+                        case (content.indexOf('monday') >-1):
                             day = 'M';
                         break;
-                        case (this.user.lastMessage.content.indexOf('Sunday') >-1):
+                        case (content.indexOf('sunday') >-1):
                             day = 'L';
                         break;
-                        case (this.user.lastMessage.content.indexOf('Friday') >-1):
+                        case (content.indexOf('friday') >-1):
                             day = 'K';
                         break;
                     }
+                    var range = `Thoms rooster extravaganza!${day}${count+this.offset}`;
+                    var valueInputOption = 'USER_ENTERED';
+                    var resource = [['Y']];
 
-                    var params = {
-                        // The ID of the spreadsheet to update.
-                        spreadsheetId: id,  // TODO: Update placeholder value.
-                
-                        // The A1 notation of the values to update.
-                        range: `Thoms rooster extravaganza!${day}${count+this.offset}`,  // TODO: Update placeholder value.
-                
-                        // How the input data should be interpreted.
-                        valueInputOption: 'USER_ENTERED',  // TODO: Update placeholder value.
+                    console.log(range);
 
+                    var request = {
+                        spreadsheetId: id,  
+
+                        range: range,
+                        
+                        valueInputOption: valueInputOption,
+                        
                         resource: {
-                            values: [['y']]
+                            values: resource
+                        },
+                    };
+
+                        sheets.spreadsheets.values.update(request, function(err, response) {
+                            if (err) {
+                            console.error(err);
+                            return;
                         }
-                      };
-                      
-                      sheets.spreadsheets.values.update(params, function(err, response) {
-                        if (err) {
-                          console.error(err);
-                          return;
-                        }
-                    
+                        
                         // TODO: Change code below to process the `response` object:
                         console.log(JSON.stringify(response, null, 2));
-                      });
+                        });
                 }
             });
             } else {
