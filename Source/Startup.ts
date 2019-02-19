@@ -40,15 +40,15 @@ export class Startup {
             if (user.id !== this.client.user.id) {
                 switch (messageReaction.emoji.name) {
                     case '✅':
-                        new Signup(user, 'value');
+                        new Signup(user, messageReaction.message, 'Y');
                     break;
 
                     case '❎':
-                        console.log('fail');
+                        new Signup(user, messageReaction.message, 'N');
                     break;
 
                     case '❓':
-                        console.log('maybe');
+                        new Signup(user, messageReaction.message, 'L');
                     break;
 
                     default:

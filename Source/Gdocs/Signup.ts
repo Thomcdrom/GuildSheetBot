@@ -1,18 +1,20 @@
 import { GdocAutenticate } from './Autenticate';
 import { google } from 'googleapis';
-import { User } from 'discord.js';
+import { User, Message } from 'discord.js';
 import { OAuth2Client } from 'googleapis-common';
-import { FindPlayer } from './Util/FindPlayer';
 
 export class Signup extends GdocAutenticate {
 
     user :User;
+    message :Message;
     value :string;
     offset :number = 2;
 
-    constructor(user :any ,value :string) {
+    constructor(user :User , message :Message ,value :string) {
         super();
+
         this.user = user;
+        this.message = message;
         this.value = value;
 
         this.run = this.run.bind(this);
@@ -25,7 +27,7 @@ export class Signup extends GdocAutenticate {
 
         sheets.spreadsheets.values.get({
             spreadsheetId: id,
-            range: `Thoms rooster extravaganza!B${this.offset}:B72`,
+            range: `${process.env.TAB_NAME}!B${this.offset}:B72`,
         }, (err, res) => {
             if (err) return console.log('The API returned an error: ' + err);
             const rows = res.data.values;
@@ -34,7 +36,7 @@ export class Signup extends GdocAutenticate {
             rows.map((row, count) => {
                 if (this.user.username.toLowerCase() === row[0].toLowerCase()) {
                     let day :string;
-                    const content = this.user.lastMessage.content.toLowerCase();
+                    const content = this.message.content.toLowerCase();
 
                     switch(true) {
                         case (content.indexOf('monday') >-1):
@@ -47,11 +49,9 @@ export class Signup extends GdocAutenticate {
                             day = 'K';
                         break;
                     }
-                    var range = `Thoms rooster extravaganza!${day}${count+this.offset}`;
+                    var range = `${process.env.TAB_NAME}!${day}${count+this.offset}`;
                     var valueInputOption = 'USER_ENTERED';
-                    var resource = [['Y']];
-
-                    console.log(range);
+                    var resource = [[this.value]];
 
                     var request = {
                         spreadsheetId: id,  
@@ -70,9 +70,6 @@ export class Signup extends GdocAutenticate {
                             console.error(err);
                             return;
                         }
-                        
-                        // TODO: Change code below to process the `response` object:
-                        console.log(JSON.stringify(response, null, 2));
                         });
                 }
             });
