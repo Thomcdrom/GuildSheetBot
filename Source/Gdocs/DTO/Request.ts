@@ -2,7 +2,7 @@ export class Request {
     private spreadsheetId :string;
     private range :string;
     private valueInputOption :string;
-    private resource :object;
+    private resource :any;
 
     constructor() {}
 
@@ -18,12 +18,12 @@ export class Request {
         this.valueInputOption = valueInputOption;
     }
 
-    public setResource(resource :object) {
+    public setResource(resource :any) {
         this.resource = resource;
     }
 
     public setValue(value :string) {
-        this.resource = { value: [[value]] };
+        this.resource = [[value]];
     }
 
     public toObject() :object {
@@ -34,7 +34,9 @@ export class Request {
                 
                 valueInputOption: this.valueInputOption,
                 
-                resource: this.resource,
+                resource: {
+                    values: this.resource,
+                },
         }
 
         return object;

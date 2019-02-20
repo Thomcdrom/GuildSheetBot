@@ -4,7 +4,7 @@ import { OAuth2Client } from 'googleapis-common';
 
 export class FindPlayer {
 
-    public find(auth: OAuth2Client, offset: number, user: User) {
+     public async find (auth: OAuth2Client, offset: number, user: User) :Promise<number> {
         const sheets = google.sheets({version: 'v4', auth });
 
         sheets.spreadsheets.values.get({
@@ -24,5 +24,6 @@ export class FindPlayer {
             console.log('No data found.');
             }
         });
+        return null;
     }
 }
