@@ -2,6 +2,7 @@ import { GdocAutenticate } from './Autenticate';
 import { google } from 'googleapis';
 import { User, Message } from 'discord.js';
 import { OAuth2Client } from 'googleapis-common';
+import { Request } from './DTO/Request';
 
 export class Signup extends GdocAutenticate {
 
@@ -49,28 +50,19 @@ export class Signup extends GdocAutenticate {
                             day = 'K';
                         break;
                     }
-                    var range = `${process.env.TAB_NAME}!${day}${count+this.offset}`;
-                    var valueInputOption = 'USER_ENTERED';
-                    var resource = [[this.value]];
+                    const request = new Request()
 
-                    var request = {
-                        spreadsheetId: id,  
+                    request.setSpreadsheetId(id);
+                    request.setRange(`${process.env.TAB_NAME}!${day}${count+this.offset}`);
+                    request.setValueInputOption('USER_ENTERED');
+                    request.setValue(this.value);
 
-                        range: range,
-                        
-                        valueInputOption: valueInputOption,
-                        
-                        resource: {
-                            values: resource
-                        },
-                    };
-
-                        sheets.spreadsheets.values.update(request, function(err, response) {
+                    sheets.spreadsheets.values.update(request.toObject(), function(err, response) {
                             if (err) {
                             console.error(err);
                             return;
                         }
-                        });
+                    });
                 }
             });
             } else {
