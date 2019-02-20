@@ -14,8 +14,9 @@ export class AddReactions extends ComandBase implements ComandInterface {
     public run() {
         if (process.env.ANNOUCMENT_CHANNEL_ID === this.message.channel.id) {
             this.message.react('✅')
-            .then(text=>{this.message.react('❎')
-            .then(text=>{this.message.react('❓')})
+            .then( text=> {this.message.react('❎')
+                .then( text=> {this.message.react('❓')
+                })
             });
         }      
     }

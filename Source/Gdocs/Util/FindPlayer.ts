@@ -12,16 +12,17 @@ export class FindPlayer {
             range: `Thoms rooster extravaganza!B${offset}:B72`,
         }, (err, res) => {
             if (err) return console.log('The API returned an error: ' + err);
-            const rows = res.data.values;
-            if (rows.length) {
-            // Print columns A and E, which correspond to indices 0 and 4.
-            rows.map((row, count) => {
-                if (user.username.toLowerCase() === row[0].toLowerCase()) {
-                    return count+offset;
-                }
-            });
+                const rows = res.data.values;
+                
+                if (rows.length) {
+
+                rows.map((row, count) => {
+                    if (user.username.toLowerCase() === row[0].toLowerCase()) {
+                        return count+offset;
+                    }
+                });
             } else {
-            console.log('No data found.');
+                console.log('No data found.');
             }
         });
         return null;

@@ -29,11 +29,8 @@ export class Request {
     public toObject() :object {
         const object = {
                 spreadsheetId: this.spreadsheetId,  
-
                 range: this.range,
-                
                 valueInputOption: this.valueInputOption,
-                
                 resource: {
                     values: this.resource,
                 },
