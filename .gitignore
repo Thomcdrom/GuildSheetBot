@@ -7,3 +7,5 @@ typings/
 archive/
 *.map
 .env
+JsonFiles/
+credentials.json
