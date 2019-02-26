@@ -3,7 +3,6 @@ import { google } from 'googleapis';
 import { User, Message } from 'discord.js';
 import { OAuth2Client } from 'googleapis-common';
 import { Request } from './DTO/Request';
-import { userInfo } from 'os';
 
 export class Signup extends GdocAutenticate {
 
@@ -37,6 +36,8 @@ export class Signup extends GdocAutenticate {
             const rows = res.data.values;
 
             if (rows.length) {
+                let playerExists = false;
+
                 rows.map((row, count) => {
                     if (this.user.username.toLowerCase() === row[0].toLowerCase()) {
                         
@@ -67,11 +68,15 @@ export class Signup extends GdocAutenticate {
                                 return;
                             }
                         });
+                        playerExists = true;
+                        return;
                     }
-
-                    this.user.sendMessage("I couldn't find your name on you magical sheet. Please contact a officer so they can help me out, and so you can signup!");
-
                 });
+
+                if (!playerExists) {
+                    this.user.send("I couldn't find your name on you magical sheet. Please contact a officer so they can help me out, and so you can signup!");
+                }
+
             } else {
                 console.log('No data found.');
             }
