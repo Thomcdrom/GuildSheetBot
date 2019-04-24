@@ -1,8 +1,9 @@
 import { GdocAutenticate } from './Autenticate';
 import { User, Message } from 'discord.js';
 import { OAuth2Client } from 'googleapis-common';
-import { FindPlayer } from './Util/FindPlayer';
+import { FindPlayer } from './Util/Get/FindPlayer';
 import { UpdateData } from './Util/UpdateData';
+import { FindDay } from './Util/Get/FindDay';
 
 export class Signup extends GdocAutenticate {
 
@@ -26,14 +27,15 @@ export class Signup extends GdocAutenticate {
     public async run(auth: OAuth2Client, id :string) {
         const findPlayer =  new FindPlayer();
         const updatePlayer = new UpdateData();
+        const findDay = new FindDay();
 
         const player = await findPlayer.find(auth, this.offset, this.user);
         console.log(player);
 
-        if (!player) {
+        if (player) {
             let day :string;
             const content = this.message.content.toLowerCase();
-
+            findDay.findDay(auth);
             switch(true) {
                 case (content.indexOf('monday') > -1):
                     day = 'M';
