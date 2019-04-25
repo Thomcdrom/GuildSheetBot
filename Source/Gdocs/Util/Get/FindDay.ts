@@ -4,7 +4,7 @@ import { Day } from '../../DTO/Day';
 
 export class FindDay {
     
-    public findDay(auth: OAuth2Client) :Promise<string> {
+    public findDay(auth: OAuth2Client) :Promise<Day[]> {
         const sheets = google.sheets({version: 'v4', auth });
 
         const alphabet = 'klm'.split('');
@@ -14,16 +14,21 @@ export class FindDay {
             range: `Thoms rooster extravaganza!K77:M77`,
         };
 
-        return new Promise<string>((resolve, reject) => {
+        return new Promise<Day[]>((resolve, reject) => {
             sheets.spreadsheets.values.get(options, (err, res) => {
                 const rows = res.data.values
                 if (rows.length) {
-                    let array = [];
+                    let days = [];
                     rows.map((row, count) => {
-                       Day day = new Day()
+                       let day = new Day()
+                       
+                       day.setDay(row);
+                       day.setRow(alphabet[count]);
+                       days.push(day);
                     });
+                    resolve(days)
                 } else {
-                    reject('No player data found.');
+                    reject('no days found');
                 }
             });
         }); 
