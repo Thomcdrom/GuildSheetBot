@@ -1,9 +1,9 @@
 import { GdocAutenticate } from './Autenticate';
-import { google } from 'googleapis';
 import { User, Message } from 'discord.js';
 import { OAuth2Client } from 'googleapis-common';
-import { Request } from './DTO/Request';
-import { userInfo } from 'os';
+import { FindPlayer } from './Util/Get/FindPlayer';
+import { UpdateData } from './Util/UpdateData';
+import { FindDay } from './Util/Get/FindDay';
 
 export class Signup extends GdocAutenticate {
 
@@ -24,57 +24,32 @@ export class Signup extends GdocAutenticate {
         this.authenticate();
     }
 
-    run(auth: OAuth2Client, id :string) {
-        const sheets = google.sheets({version: 'v4', auth });
+    public async run(auth: OAuth2Client, id :string) {
+        const findPlayer =  new FindPlayer();
+        const updatePlayer = new UpdateData();
+        const findDay = new FindDay();
 
-        sheets.spreadsheets.values.get({
-            spreadsheetId: id,
-            range: `${process.env.TAB_NAME}!B${this.offset}:B72`,
-        }, (err, res) => {
-            if (err) {
-                 return console.log('The API returned an error: ' + err);
+        const player = await findPlayer.find(auth, this.offset, this.user);
+
+        if (player) {
+            let day :string;
+            const content = this.message.content.toLowerCase();
+            const days = await findDay.findDay(auth);
+            
+            for (let i = 0; i < days.length; i++) {
+                console.log(days[i]);
+                if (content.indexOf(days[i].getDay()) > -1) {
+                    day = days[i].getRow();
+                    break;
+                }
             }
-            const rows = res.data.values;
 
-            if (rows.length) {
-                rows.map((row, count) => {
-                    if (this.user.username.toLowerCase() === row[0].toLowerCase()) {
-                        
-                        let day :string;
-                        const content = this.message.content.toLowerCase();
-
-                        switch(true) {
-                            case (content.indexOf('monday') > -1):
-                                day = 'M';
-                            break;
-                            case (content.indexOf('sunday') > -1):
-                                day = 'L';
-                            break;
-                            case (content.indexOf('friday') > -1):
-                                day = 'K';
-                            break;
-                        }
-                        const request = new Request()
-
-                        request.setSpreadsheetId(id);
-                        request.setRange(`${process.env.TAB_NAME}!${day}${count+this.offset}`);
-                        request.setValueInputOption('USER_ENTERED');
-                        request.setValue(this.value);
-
-                        sheets.spreadsheets.values.update(request.toObject(), function(err, response) {
-                            if (err) {
-                                console.error(err);
-                                return;
-                            }
-                        });
-                    }
-
-                    this.user.sendMessage("I couldn't find your name on you magical sheet. Please contact a officer so they can help me out, and so you can signup!");
-
-                });
-            } else {
-                console.log('No data found.');
+            if (updatePlayer.update(auth, id, player, this.offset, day, this.value)) {
+                console.log(`${this.user.username} has changed his status to ${this.value}`);
             }
-        });
+
+        } else {
+            this.user.send("I couldn't find your name on you magical sheet. Please contact a officer so they can help me out, and so you can signup!");
+        }
     }
 }

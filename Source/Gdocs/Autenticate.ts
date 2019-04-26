@@ -65,7 +65,7 @@ protected authenticate(){
       });
   }
 
-   run(auth: OAuth2Client, id :string ) {
+   public async run(auth: OAuth2Client, id :string ) {
     console.log('I SHOULD BE OVERWRITTEN!');
   };
 }
