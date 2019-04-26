@@ -21,7 +21,7 @@ export class FindPlayer {
     
                     rows.map((row, count) => {
                         if (user.username.toLowerCase() === row[0].toLowerCase()) {
-                            resolve(count+offset);
+                            resolve(count);
                         }
                     });
                 } else {

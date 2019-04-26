@@ -26,7 +26,7 @@ export class Startup {
                     message.reply('Pong!');
                 break;
 
-                case message.content.includes('node war'):
+                case message.content.includes('nodewar') || message.content.includes('event') || message.content.includes('siege') :
                    const reaction = new AddReactions(this.client, message);
                    reaction.run();
                 break;
