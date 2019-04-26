@@ -30,25 +30,22 @@ export class Signup extends GdocAutenticate {
         const findDay = new FindDay();
 
         const player = await findPlayer.find(auth, this.offset, this.user);
-        console.log(player);
 
         if (player) {
             let day :string;
             const content = this.message.content.toLowerCase();
-            findDay.findDay(auth);
-            switch(true) {
-                case (content.indexOf('monday') > -1):
-                    day = 'M';
-                break;
-                case (content.indexOf('sunday') > -1):
-                    day = 'L';
-                break;
-                case (content.indexOf('friday') > -1):
-                    day = 'K';
-                break;
+            const days = await findDay.findDay(auth);
+            
+            for (let i = 0; i < days.length; i++) {
+                console.log(days[i]);
+                if (content.indexOf(days[i].getDay()) > -1) {
+                    day = days[i].getRow();
+                    break;
+                }
             }
+
             if (updatePlayer.update(auth, id, player, this.offset, day, this.value)) {
-                console.log(`${this.user.username} has changed his status to ${this.value}` )
+                console.log(`${this.user.username} has changed his status to ${this.value}`);
             }
 
         } else {

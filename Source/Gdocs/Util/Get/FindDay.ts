@@ -4,31 +4,42 @@ import { Day } from '../../DTO/Day';
 
 export class FindDay {
     
-    public findDay(auth: OAuth2Client) :Promise<Day[]> {
+    public findDay(auth: OAuth2Client, header :number = 1, sheetPage :string = "Thoms rooster extravaganza") :Promise<Day[]> {
         const sheets = google.sheets({version: 'v4', auth });
 
-        const alphabet = 'klm'.split('');
+        const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+        const daysOfTheWeek = ['monday', 'tuesday','wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        const events = ['event', 'non-manditory', 'siege'];
 
         const options = {
             spreadsheetId: process.env.SHEET_ID,
-            range: `Thoms rooster extravaganza!K77:M77`,
+            range: `${sheetPage}!A${header}:Z${header}`,
         };
 
         return new Promise<Day[]>((resolve, reject) => {
             sheets.spreadsheets.values.get(options, (err, res) => {
-                const rows = res.data.values
-                if (rows.length) {
-                    let days = [];
-                    rows.map((row, count) => {
-                       let day = new Day()
-                       
-                       day.setDay(row);
-                       day.setRow(alphabet[count]);
-                       days.push(day);
-                    });
-                    resolve(days)
+                if (err) {
+                    reject(err);
                 } else {
-                    reject('no days found');
+                    const rows = res.data.values
+                    if (rows.length) {
+                        let days = [];
+                        rows.map((row) => {
+                            row.map((fields, count) => {
+                                let field = fields.toString().toLowerCase().trim();
+                                if (daysOfTheWeek.includes(field) || events.includes(field)) {
+                                    const day = new Day()
+                                    day.setDay(field);
+                                    day.setRow(alphabet[count]);
+    
+                                    days.push(day);
+                                }
+                            })
+                        });
+                        resolve(days)
+                    } else {
+                        reject('no days found');
+                    }
                 }
             });
         }); 
