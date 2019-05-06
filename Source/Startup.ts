@@ -28,16 +28,16 @@ export class Startup {
                         const dm = new Register(this.client, message);
                         dm.run();
                     }
-                break;
+                    break;
 
                 case message.content ==='ping':
                     message.reply('Pong!');
-                break;
+                    break;
 
                 case message.content.includes('nodewar') || message.content.includes('event') || message.content.includes('siege') :
                    const reaction = new AddReactions(this.client, message);
                    reaction.run();
-                break;
+                   break;
             }
 
           });
