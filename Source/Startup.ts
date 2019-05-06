@@ -1,6 +1,7 @@
 import * as discord from 'discord.js';
 import {AddReactions} from '../Source/Commands/Signup/AddReactions'
 import { Signup } from './Gdocs/Signup';
+import { Register } from './Commands/Register/Register';
 
 export class Startup {
       client: discord.Client
@@ -22,6 +23,13 @@ export class Startup {
     private message() {
         this.client.on('message', message => {
             switch (true) {
+                case message.channel.type === 'dm':
+                    if (message.author.id !== this.client.user.id) {
+                        const dm = new Register(this.client, message);
+                        dm.run();
+                    }
+                break;
+
                 case message.content ==='ping':
                     message.reply('Pong!');
                 break;
