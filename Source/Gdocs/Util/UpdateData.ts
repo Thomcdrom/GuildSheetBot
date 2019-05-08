@@ -2,16 +2,15 @@ import { google } from 'googleapis';
 import { OAuth2Client } from 'googleapis-common';
 import { Request } from '../DTO/Request';
 
-
 export class UpdateData {
 
-     public update (auth: OAuth2Client, id :string, count :number, offset :number, day :string, value: string ) :Promise<boolean> {
+     public update (auth: OAuth2Client, id :string, count :number, letter :string, value: string, offset :number = 0 ) :Promise<boolean> {
         const request = new Request()
         const sheets = google.sheets({version: 'v4', auth });
 
         return new Promise<boolean>((resolve, reject) => {
             request.setSpreadsheetId(id);
-            request.setRange(`${process.env.TAB_NAME}!${day}${count+offset}`);
+            request.setRange(`${process.env.TAB_NAME}!${letter}${count + offset}`);
             request.setValueInputOption('USER_ENTERED');
             request.setValue(value);
 

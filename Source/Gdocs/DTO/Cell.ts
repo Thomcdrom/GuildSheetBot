@@ -1,15 +1,15 @@
-export class Day {
-    private day :string;
+export class Cell {
+    private cellName :string;
     private row :string;
 
     constructor() {}
 
-    public getDay() :string {
-        return this.day;
+    public getCellName() :string {
+        return this.cellName;
     }
 
-    public setDay(day :string) {
-        this.day = day;
+    public setCellName(day :string) {
+        this.cellName = day;
     }
 
     public getRow() :string {

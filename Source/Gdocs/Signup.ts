@@ -44,7 +44,7 @@ export class Signup extends GdocAutenticate {
                 }
             }
 
-            if (updatePlayer.update(auth, id, player, this.offset, day, this.value)) {
+            if (updatePlayer.update(auth, id, player, day, this.value, this.offset)) {
                 console.log(`${this.user.username} has changed his status to ${this.value}`);
             }
 
